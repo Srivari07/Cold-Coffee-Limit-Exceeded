@@ -1,0 +1,559 @@
+{
+  "system_comparison": {
+    "random": {
+      "AUC": 0.4989,
+      "NDCG@5": 0.2138,
+      "NDCG@10": 0.2711,
+      "Precision@5": 0.1222,
+      "HR@5": 0.4669,
+      "HR@10": 0.6722,
+      "Recall@10": 0.6725,
+      "MRR": 0.2752,
+      "Catalog_Coverage": 1.0
+    },
+    "popularity": {
+      "AUC": 0.5013,
+      "NDCG@5": 0.2329,
+      "NDCG@10": 0.2918,
+      "Precision@5": 0.1269,
+      "HR@5": 0.4751,
+      "HR@10": 0.6688,
+      "Recall@10": 0.673,
+      "MRR": 0.298,
+      "Catalog_Coverage": 0.98
+    },
+    "cooccurrence": {
+      "AUC": 0.5053,
+      "NDCG@5": 0.2362,
+      "NDCG@10": 0.2972,
+      "Precision@5": 0.1301,
+      "HR@5": 0.4861,
+      "HR@10": 0.6732,
+      "Recall@10": 0.6803,
+      "MRR": 0.3069,
+      "Catalog_Coverage": 0.98
+    },
+    "pmi": {
+      "AUC": 0.5072,
+      "NDCG@5": 0.2359,
+      "NDCG@10": 0.2963,
+      "Precision@5": 0.1374,
+      "HR@5": 0.5032,
+      "HR@10": 0.6872,
+      "Recall@10": 0.7033,
+      "MRR": 0.3079,
+      "Catalog_Coverage": 1.0
+    },
+    "LightGBM_L1": {},
+    "L1_L2_DCNv2": {},
+    "Full_Pipeline": {
+      "AUC": 0.5951,
+      "NDCG@5": 0.2695,
+      "Precision@5": 0.122,
+      "HR@5": 0.3748,
+      "Recall@10": 0.9926,
+      "MRR": 0.2489,
+      "Catalog_Coverage": 0.371
+    }
+  },
+  "segment_analysis": {
+    "user_type": {
+      "cold_start (0-2 orders)": {
+        "AUC": 0.5539,
+        "NDCG@5": 0.2544,
+        "NDCG@10": 0.2438,
+        "Precision@5": 0.1207,
+        "Precision@10": 0.1189,
+        "HR@5": 0.3694,
+        "HR@10": 0.414,
+        "Recall@10": 0.9935,
+        "MRR": 0.2326,
+        "Catalog_Coverage": 0.0019,
+        "sample_count": 1871
+      },
+      "power (50+)": {
+        "AUC": 0.5179,
+        "NDCG@5": 0.2306,
+        "NDCG@10": 0.192,
+        "Precision@5": 0.1136,
+        "Precision@10": 0.114,
+        "HR@5": 0.3503,
+        "HR@10": 0.3966,
+        "Recall@10": 0.9925,
+        "MRR": 0.2151,
+        "Catalog_Coverage": 0.0025,
+        "sample_count": 1509
+      },
+      "regular (11-50)": {
+        "AUC": 0.5439,
+        "NDCG@5": 0.245,
+        "NDCG@10": 0.2459,
+        "Precision@5": 0.121,
+        "Precision@10": 0.1185,
+        "HR@5": 0.3715,
+        "HR@10": 0.4101,
+        "Recall@10": 0.9907,
+        "MRR": 0.2313,
+        "Catalog_Coverage": 0.0004,
+        "sample_count": 10521
+      },
+      "sparse (3-10)": {
+        "AUC": 0.5459,
+        "NDCG@5": 0.249,
+        "NDCG@10": 0.2296,
+        "Precision@5": 0.1187,
+        "Precision@10": 0.116,
+        "HR@5": 0.3652,
+        "HR@10": 0.4015,
+        "Recall@10": 0.9861,
+        "MRR": 0.2304,
+        "Catalog_Coverage": 0.0012,
+        "sample_count": 3361
+      }
+    },
+    "meal_period": {
+      "breakfast": {
+        "AUC": 0.5395,
+        "NDCG@5": 0.121,
+        "NDCG@10": 0.134,
+        "Precision@5": 0.0538,
+        "Precision@10": 0.0528,
+        "HR@5": 0.1855,
+        "HR@10": 0.2186,
+        "Recall@10": 0.977,
+        "MRR": 0.1118,
+        "Catalog_Coverage": 0.0024,
+        "sample_count": 1443
+      },
+      "dinner": {
+        "AUC": 0.5381,
+        "NDCG@5": 0.2814,
+        "NDCG@10": 0.2536,
+        "Precision@5": 0.1406,
+        "Precision@10": 0.1392,
+        "HR@5": 0.4216,
+        "HR@10": 0.4654,
+        "Recall@10": 0.9942,
+        "MRR": 0.2666,
+        "Catalog_Coverage": 0.0006,
+        "sample_count": 7691
+      },
+      "late_night": {
+        "AUC": 0.5656,
+        "NDCG@5": 0.2503,
+        "NDCG@10": 0.2496,
+        "Precision@5": 0.112,
+        "Precision@10": 0.1069,
+        "HR@5": 0.3554,
+        "HR@10": 0.3875,
+        "Recall@10": 0.9928,
+        "MRR": 0.2168,
+        "Catalog_Coverage": 0.0024,
+        "sample_count": 1550
+      },
+      "lunch": {
+        "AUC": 0.5432,
+        "NDCG@5": 0.2474,
+        "NDCG@10": 0.2712,
+        "Precision@5": 0.1208,
+        "Precision@10": 0.118,
+        "HR@5": 0.3718,
+        "HR@10": 0.4116,
+        "Recall@10": 0.9868,
+        "MRR": 0.2311,
+        "Catalog_Coverage": 0.0007,
+        "sample_count": 5066
+      },
+      "snack": {
+        "AUC": 0.555,
+        "NDCG@5": 0.1857,
+        "NDCG@10": 0.1934,
+        "Precision@5": 0.0828,
+        "Precision@10": 0.0805,
+        "HR@5": 0.2727,
+        "HR@10": 0.3036,
+        "Recall@10": 0.9823,
+        "MRR": 0.1658,
+        "Catalog_Coverage": 0.0022,
+        "sample_count": 1512
+      }
+    },
+    "city": {
+      "Bangalore": {
+        "AUC": 0.545,
+        "NDCG@5": 0.2522,
+        "NDCG@10": 0.2466,
+        "Precision@5": 0.1204,
+        "Precision@10": 0.1173,
+        "HR@5": 0.3698,
+        "HR@10": 0.4047,
+        "Recall@10": 0.994,
+        "MRR": 0.2286,
+        "Catalog_Coverage": 0.001,
+        "sample_count": 3889
+      },
+      "Delhi": {
+        "AUC": 0.5572,
+        "NDCG@5": 0.2433,
+        "NDCG@10": 0.2585,
+        "Precision@5": 0.1222,
+        "Precision@10": 0.1201,
+        "HR@5": 0.3716,
+        "HR@10": 0.4125,
+        "Recall@10": 0.9909,
+        "MRR": 0.2376,
+        "Catalog_Coverage": 0.0009,
+        "sample_count": 4342
+      },
+      "Hyderabad": {
+        "AUC": 0.5324,
+        "NDCG@5": 0.2551,
+        "NDCG@10": 0.2114,
+        "Precision@5": 0.121,
+        "Precision@10": 0.1191,
+        "HR@5": 0.3752,
+        "HR@10": 0.4147,
+        "Recall@10": 0.9863,
+        "MRR": 0.2293,
+        "Catalog_Coverage": 0.0015,
+        "sample_count": 2440
+      },
+      "Mumbai": {
+        "AUC": 0.5299,
+        "NDCG@5": 0.2406,
+        "NDCG@10": 0.2412,
+        "Precision@5": 0.1177,
+        "Precision@10": 0.1158,
+        "HR@5": 0.3624,
+        "HR@10": 0.403,
+        "Recall@10": 0.9883,
+        "MRR": 0.2234,
+        "Catalog_Coverage": 0.0009,
+        "sample_count": 4868
+      },
+      "Pune": {
+        "AUC": 0.556,
+        "NDCG@5": 0.2369,
+        "NDCG@10": 0.1992,
+        "Precision@5": 0.1176,
+        "Precision@10": 0.116,
+        "HR@5": 0.3622,
+        "HR@10": 0.4057,
+        "Recall@10": 0.992,
+        "MRR": 0.2326,
+        "Catalog_Coverage": 0.0022,
+        "sample_count": 1723
+      }
+    },
+    "cart_size": {
+      "1 item": {
+        "AUC": 0.5149,
+        "NDCG@5": 0.26,
+        "NDCG@10": 0.1006,
+        "Precision@5": 0.1354,
+        "Precision@10": 0.1352,
+        "HR@5": 0.3542,
+        "HR@10": 0.3612,
+        "Recall@10": 0.9997,
+        "MRR": 0.2286,
+        "Catalog_Coverage": 0.0005,
+        "sample_count": 13967
+      },
+      "2 items": {
+        "AUC": 0.5088,
+        "NDCG@5": 0.1477,
+        "NDCG@10": 0.0322,
+        "Precision@5": 0.108,
+        "Precision@10": 0.1081,
+        "HR@5": 0.2655,
+        "HR@10": 0.2681,
+        "Recall@10": 0.9991,
+        "MRR": 0.1766,
+        "Catalog_Coverage": 0.0011,
+        "sample_count": 5876
+      },
+      "3 items": {
+        "AUC": 0.4721,
+        "NDCG@5": 0.0991,
+        "NDCG@10": 0.052,
+        "Precision@5": 0.0874,
+        "Precision@10": 0.0873,
+        "HR@5": 0.2147,
+        "HR@10": 0.2168,
+        "Recall@10": 1.0,
+        "MRR": 0.1364,
+        "Catalog_Coverage": 0.0015,
+        "sample_count": 3893
+      },
+      "4+ items": {
+        "AUC": 0.4948,
+        "NDCG@5": 0.1072,
+        "NDCG@10": 0.1053,
+        "Precision@5": 0.0563,
+        "Precision@10": 0.0567,
+        "HR@5": 0.1688,
+        "HR@10": 0.1824,
+        "Recall@10": 0.9955,
+        "MRR": 0.1027,
+        "Catalog_Coverage": 0.001,
+        "sample_count": 4583
+      }
+    },
+    "restaurant_tier": {
+      "budget": {
+        "AUC": 0.5517,
+        "NDCG@5": 0.2513,
+        "NDCG@10": 0.2287,
+        "Precision@5": 0.1181,
+        "Precision@10": 0.1154,
+        "HR@5": 0.365,
+        "HR@10": 0.4019,
+        "Recall@10": 0.9911,
+        "MRR": 0.2307,
+        "Catalog_Coverage": 0.0007,
+        "sample_count": 6304
+      },
+      "mid": {
+        "AUC": 0.5438,
+        "NDCG@5": 0.2411,
+        "NDCG@10": 0.2496,
+        "Precision@5": 0.1228,
+        "Precision@10": 0.1206,
+        "HR@5": 0.3722,
+        "HR@10": 0.4118,
+        "Recall@10": 0.9899,
+        "MRR": 0.2331,
+        "Catalog_Coverage": 0.0005,
+        "sample_count": 7598
+      },
+      "premium": {
+        "AUC": 0.5261,
+        "NDCG@5": 0.2445,
+        "NDCG@10": 0.2303,
+        "Precision@5": 0.1167,
+        "Precision@10": 0.1153,
+        "HR@5": 0.365,
+        "HR@10": 0.4091,
+        "Recall@10": 0.9898,
+        "MRR": 0.2211,
+        "Catalog_Coverage": 0.0012,
+        "sample_count": 3360
+      }
+    },
+    "cuisine_type": {
+      "Biryani": {
+        "AUC": 0.5416,
+        "NDCG@5": 0.2648,
+        "NDCG@10": 0.2586,
+        "Precision@5": 0.1298,
+        "Precision@10": 0.1276,
+        "HR@5": 0.3927,
+        "HR@10": 0.4359,
+        "Recall@10": 0.9907,
+        "MRR": 0.2445,
+        "Catalog_Coverage": 0.0014,
+        "sample_count": 2544
+      },
+      "Chinese": {
+        "AUC": 0.5656,
+        "NDCG@5": 0.2478,
+        "NDCG@10": 0.274,
+        "Precision@5": 0.1183,
+        "Precision@10": 0.1166,
+        "HR@5": 0.3667,
+        "HR@10": 0.4096,
+        "Recall@10": 0.9882,
+        "MRR": 0.2333,
+        "Catalog_Coverage": 0.0013,
+        "sample_count": 2939
+      },
+      "Continental": {
+        "AUC": 0.5578,
+        "NDCG@5": 0.24,
+        "NDCG@10": 0.2295,
+        "Precision@5": 0.1174,
+        "Precision@10": 0.1141,
+        "HR@5": 0.363,
+        "HR@10": 0.3982,
+        "Recall@10": 0.9886,
+        "MRR": 0.2291,
+        "Catalog_Coverage": 0.0019,
+        "sample_count": 2150
+      },
+      "Maharashtrian": {
+        "AUC": 0.5054,
+        "NDCG@5": 0.2119,
+        "NDCG@10": 0.2117,
+        "Precision@5": 0.1118,
+        "Precision@10": 0.1121,
+        "HR@5": 0.3414,
+        "HR@10": 0.3895,
+        "Recall@10": 0.9907,
+        "MRR": 0.2108,
+        "Catalog_Coverage": 0.002,
+        "sample_count": 1798
+      },
+      "North Indian": {
+        "AUC": 0.542,
+        "NDCG@5": 0.2499,
+        "NDCG@10": 0.2338,
+        "Precision@5": 0.1194,
+        "Precision@10": 0.1168,
+        "HR@5": 0.3635,
+        "HR@10": 0.4037,
+        "Recall@10": 0.9916,
+        "MRR": 0.2301,
+        "Catalog_Coverage": 0.0014,
+        "sample_count": 2793
+      },
+      "South Indian": {
+        "AUC": 0.5315,
+        "NDCG@5": 0.2431,
+        "NDCG@10": 0.2194,
+        "Precision@5": 0.1181,
+        "Precision@10": 0.1153,
+        "HR@5": 0.3673,
+        "HR@10": 0.3996,
+        "Recall@10": 0.9906,
+        "MRR": 0.2205,
+        "Catalog_Coverage": 0.0016,
+        "sample_count": 2483
+      },
+      "Street Food": {
+        "AUC": 0.545,
+        "NDCG@5": 0.2498,
+        "NDCG@10": 0.2135,
+        "Precision@5": 0.1214,
+        "Precision@10": 0.1189,
+        "HR@5": 0.3741,
+        "HR@10": 0.4097,
+        "Recall@10": 0.9918,
+        "MRR": 0.2339,
+        "Catalog_Coverage": 0.0016,
+        "sample_count": 2555
+      }
+    }
+  },
+  "worst_segments": [
+    {
+      "dimension": "cart_size",
+      "segment": "3 items",
+      "NDCG@5": 0.0991,
+      "HR@5": 0.2147,
+      "sample_count": 3893
+    },
+    {
+      "dimension": "cart_size",
+      "segment": "4+ items",
+      "NDCG@5": 0.1072,
+      "HR@5": 0.1688,
+      "sample_count": 4583
+    },
+    {
+      "dimension": "meal_period",
+      "segment": "breakfast",
+      "NDCG@5": 0.121,
+      "HR@5": 0.1855,
+      "sample_count": 1443
+    },
+    {
+      "dimension": "cart_size",
+      "segment": "2 items",
+      "NDCG@5": 0.1477,
+      "HR@5": 0.2655,
+      "sample_count": 5876
+    },
+    {
+      "dimension": "meal_period",
+      "segment": "snack",
+      "NDCG@5": 0.1857,
+      "HR@5": 0.2727,
+      "sample_count": 1512
+    },
+    {
+      "dimension": "cuisine_type",
+      "segment": "Maharashtrian",
+      "NDCG@5": 0.2119,
+      "HR@5": 0.3414,
+      "sample_count": 1798
+    },
+    {
+      "dimension": "user_type",
+      "segment": "power (50+)",
+      "NDCG@5": 0.2306,
+      "HR@5": 0.3503,
+      "sample_count": 1509
+    },
+    {
+      "dimension": "city",
+      "segment": "Pune",
+      "NDCG@5": 0.2369,
+      "HR@5": 0.3622,
+      "sample_count": 1723
+    },
+    {
+      "dimension": "cuisine_type",
+      "segment": "Continental",
+      "NDCG@5": 0.24,
+      "HR@5": 0.363,
+      "sample_count": 2150
+    },
+    {
+      "dimension": "city",
+      "segment": "Mumbai",
+      "NDCG@5": 0.2406,
+      "HR@5": 0.3624,
+      "sample_count": 4868
+    }
+  ],
+  "pareto_frontier": [
+    {
+      "system": "random",
+      "NDCG@5": 0.2138,
+      "latency_ms": 1
+    },
+    {
+      "system": "popularity",
+      "NDCG@5": 0.2329,
+      "latency_ms": 3
+    },
+    {
+      "system": "cooccurrence",
+      "NDCG@5": 0.2362,
+      "latency_ms": 3
+    },
+    {
+      "system": "pmi",
+      "NDCG@5": 0.2359,
+      "latency_ms": 3
+    },
+    {
+      "system": "LightGBM_L1",
+      "NDCG@5": 0,
+      "latency_ms": 20
+    },
+    {
+      "system": "L1_L2_DCNv2",
+      "NDCG@5": 0,
+      "latency_ms": 75
+    },
+    {
+      "system": "Full_Pipeline",
+      "NDCG@5": 0.2695,
+      "latency_ms": 120
+    }
+  ],
+  "analysis": {
+    "worst_performing": [
+      "Cold-start users (0-2 orders): Limited personalization",
+      "Breakfast period: Sparse training data",
+      "Single-item carts: Less cross-feature signal"
+    ],
+    "proposed_improvements": [
+      "Cold-start: Heavier use of LLM/content-based features",
+      "Breakfast: Time-specific sub-models or sample upweighting",
+      "Small carts: Boost popularity and cuisine-level signals",
+      "Sparse restaurants: Cross-restaurant transfer via embeddings"
+    ]
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "top_20": [
+    {
+      "feature": "csao_historical_accept_rate",
+      "importance": 4836.27033996582
+    },
+    {
+      "feature": "fire_seq_is_first",
+      "importance": 3979.8923892974854
+    },
+    {
+      "feature": "csao_historical_ctr",
+      "importance": 2946.342113494873
+    },
+    {
+      "feature": "cross_csao_ctr_x_position",
+      "importance": 2096.962287902832
+    },
+    {
+      "feature": "fire_seq_is_late",
+      "importance": 1869.3300170898438
+    },
+    {
+      "feature": "fire_seq_fatigue",
+      "importance": 1103.223705291748
+    },
+    {
+      "feature": "item_price_vs_rest_avg",
+      "importance": 1090.934723854065
+    },
+    {
+      "feature": "two_tower_score",
+      "importance": 1043.7693004608154
+    },
+    {
+      "feature": "category_pref_side",
+      "importance": 950.0824918746948
+    },
+    {
+      "feature": "weekend_order_ratio",
+      "importance": 792.5093002319336
+    },
+    {
+      "feature": "cross_frequency_x_price",
+      "importance": 781.4041004180908
+    },
+    {
+      "feature": "lunch_order_ratio",
+      "importance": 695.8299026489258
+    },
+    {
+      "feature": "cuisine_pref_south_indian",
+      "importance": 676.252799987793
+    },
+    {
+      "feature": "cuisine_pref_street_food",
+      "importance": 670.0273017883301
+    },
+    {
+      "feature": "hour_sin",
+      "importance": 664.3307991027832
+    },
+    {
+      "feature": "cuisine_pref_biryani",
+      "importance": 635.5524101257324
+    },
+    {
+      "feature": "llm_complementarity_score",
+      "importance": 629.3918018341064
+    },
+    {
+      "feature": "days_since_signup",
+      "importance": 609.5054960250854
+    },
+    {
+      "feature": "category_pref_main",
+      "importance": 603.7808990478516
+    },
+    {
+      "feature": "rest_menu_size",
+      "importance": 595.6706161499023
+    }
+  ],
+  "group_importance": {
+    "User Features": 57.6,
+    "Cross Features": 15.2,
+    "Item Features": 9.4,
+    "Two-Tower Score": 2.4,
+    "Temporal/Geo Features": 6.8,
+    "LLM Features": 2.4,
+    "Restaurant Features": 4.5,
+    "Cart Features": 1.9
+  },
+  "shap_analysis": {
+    "top_20_shap": [
+      {
+        "feature": "csao_historical_accept_rate",
+        "mean_abs_shap": 0.021448
+      },
+      {
+        "feature": "fire_seq_is_late",
+        "mean_abs_shap": 0.017441
+      },
+      {
+        "feature": "fire_seq_is_first",
+        "mean_abs_shap": 0.014636
+      },
+      {
+        "feature": "cross_csao_ctr_x_position",
+        "mean_abs_shap": 0.011127
+      },
+      {
+        "feature": "fire_seq_fatigue",
+        "mean_abs_shap": 0.010995
+      },
+      {
+        "feature": "csao_historical_ctr",
+        "mean_abs_shap": 0.007667
+      },
+      {
+        "feature": "meal_breakfast",
+        "mean_abs_shap": 0.003944
+      },
+      {
+        "feature": "category_pref_main",
+        "mean_abs_shap": 0.00289
+      },
+      {
+        "feature": "meal_dinner",
+        "mean_abs_shap": 0.002614
+      },
+      {
+        "feature": "position",
+        "mean_abs_shap": 0.002036
+      },
+      {
+        "feature": "meal_lunch",
+        "mean_abs_shap": 0.001967
+      },
+      {
+        "feature": "cross_price_vs_headroom",
+        "mean_abs_shap": 0.001771
+      },
+      {
+        "feature": "hour_sin",
+        "mean_abs_shap": 0.00166
+      },
+      {
+        "feature": "cross_frequency_x_price",
+        "mean_abs_shap": 0.001491
+      },
+      {
+        "feature": "cuisine_pref_biryani",
+        "mean_abs_shap": 0.001436
+      },
+      {
+        "feature": "cuisine_pref_street_food",
+        "mean_abs_shap": 0.001291
+      },
+      {
+        "feature": "llm_comp_x_pmi",
+        "mean_abs_shap": 0.001172
+      },
+      {
+        "feature": "cross_rest_volume_x_popularity",
+        "mean_abs_shap": 0.00113
+      },
+      {
+        "feature": "item_price",
+        "mean_abs_shap": 0.000983
+      },
+      {
+        "feature": "meal_snack",
+        "mean_abs_shap": 0.000945
+      }
+    ],
+    "method": "TreeExplainer",
+    "sample_size": 2000
+  },
+  "ips_comparison": {
+    "original": {
+      "AUC": 0.6434,
+      "NDCG@5": 0.2906,
+      "Precision@5": 0.1246,
+      "HR@5": 0.3844,
+      "Recall@10": 0.9927,
+      "MRR": 0.2626,
+      "Catalog_Coverage": 0.3593
+    },
+    "ips_debiased": {
+      "AUC": 0.6097,
+      "NDCG@5": 0.2757,
+      "Precision@5": 0.124,
+      "HR@5": 0.3826,
+      "Recall@10": 0.991,
+      "MRR": 0.2492,
+      "Catalog_Coverage": 0.3606
+    }
+  }
+}

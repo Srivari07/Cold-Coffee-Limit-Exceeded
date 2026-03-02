@@ -1,0 +1,168 @@
+{
+  "timestamp": "2026-03-03T01:44:18.001335",
+  "psi_results": {
+    "position": {
+      "psi": 4.3e-05,
+      "status": "STABLE"
+    },
+    "user_order_count": {
+      "psi": 0.013224,
+      "status": "STABLE"
+    },
+    "monetary_avg": {
+      "psi": 0.00419,
+      "status": "STABLE"
+    },
+    "avg_items_per_order": {
+      "psi": 0.001514,
+      "status": "STABLE"
+    },
+    "weekend_order_ratio": {
+      "psi": 0.002521,
+      "status": "STABLE"
+    },
+    "recency_days": {
+      "psi": 0.43274,
+      "status": "SIGNIFICANT DRIFT"
+    },
+    "is_cold_start": {
+      "psi": 0.024253,
+      "status": "STABLE"
+    },
+    "frequency_30d": {
+      "psi": 0.005119,
+      "status": "STABLE"
+    },
+    "frequency_90d": {
+      "psi": 0.008442,
+      "status": "STABLE"
+    },
+    "rfm_segment": {
+      "psi": 0.025758,
+      "status": "STABLE"
+    },
+    "breakfast_order_ratio": {
+      "psi": 0.008076,
+      "status": "STABLE"
+    },
+    "lunch_order_ratio": {
+      "psi": 0.002528,
+      "status": "STABLE"
+    },
+    "snack_order_ratio": {
+      "psi": 0.005816,
+      "status": "STABLE"
+    },
+    "dinner_order_ratio": {
+      "psi": 0.00381,
+      "status": "STABLE"
+    },
+    "late_night_order_ratio": {
+      "psi": 0.004446,
+      "status": "STABLE"
+    },
+    "mealtime_coverage": {
+      "psi": 0.435734,
+      "status": "SIGNIFICANT DRIFT"
+    },
+    "addon_adoption_rate": {
+      "psi": 0.176492,
+      "status": "MODERATE DRIFT"
+    },
+    "price_sensitivity": {
+      "psi": 0.023459,
+      "status": "STABLE"
+    },
+    "csao_historical_ctr": {
+      "psi": 0.010067,
+      "status": "STABLE"
+    },
+    "csao_historical_accept_rate": {
+      "psi": 0.005291,
+      "status": "STABLE"
+    }
+  },
+  "monitoring_dimensions": {
+    "1_prediction_quality": {
+      "ndcg5_current": 0.3958,
+      "ndcg5_threshold": 0.35,
+      "hr5_current": 0.377,
+      "hr5_threshold": 0.36,
+      "ndcg5_7day_trend": [
+        0.385,
+        0.3786,
+        0.3865,
+        0.3952,
+        0.3777,
+        0.3777,
+        0.3958
+      ],
+      "hr5_7day_trend": [
+        0.4092,
+        0.3944,
+        0.4065,
+        0.3944,
+        0.3944,
+        0.4029,
+        0.377
+      ],
+      "status": "OK"
+    },
+    "2_feature_drift": {
+      "max_psi_feature": "mealtime_coverage",
+      "max_psi_value": 0.435734,
+      "features_with_drift": 3,
+      "total_monitored": 20,
+      "psi_details": {
+        "position": 4.3e-05,
+        "user_order_count": 0.013224,
+        "monetary_avg": 0.00419,
+        "avg_items_per_order": 0.001514,
+        "weekend_order_ratio": 0.002521,
+        "recency_days": 0.43274,
+        "is_cold_start": 0.024253,
+        "frequency_30d": 0.005119,
+        "frequency_90d": 0.008442,
+        "rfm_segment": 0.025758,
+        "breakfast_order_ratio": 0.008076,
+        "lunch_order_ratio": 0.002528,
+        "snack_order_ratio": 0.005816,
+        "dinner_order_ratio": 0.00381,
+        "late_night_order_ratio": 0.004446,
+        "mealtime_coverage": 0.435734,
+        "addon_adoption_rate": 0.176492,
+        "price_sensitivity": 0.023459,
+        "csao_historical_ctr": 0.010067,
+        "csao_historical_accept_rate": 0.005291
+      },
+      "status": "ALERT"
+    },
+    "3_score_distribution": {
+      "kl_divergence": 2e-06,
+      "kl_threshold": 0.3,
+      "score_column_used": "label",
+      "status": "OK"
+    },
+    "4_business_kpis": {
+      "current_aov": 418.2,
+      "aov_threshold": 400,
+      "current_acceptance_rate": 0.2094,
+      "acceptance_rate_threshold": 0.15,
+      "status": "OK"
+    },
+    "5_system_health": {
+      "latency_p50_ms": 72.9,
+      "latency_p95_ms": 145.1,
+      "latency_p99_ms": 174.4,
+      "p95_threshold_ms": 200,
+      "p99_threshold_ms": 300,
+      "status": "OK"
+    },
+    "6_coverage": {
+      "catalog_coverage_pct": 59.18,
+      "coverage_threshold_pct": 50.0,
+      "status": "OK"
+    }
+  },
+  "overall_status": "ATTENTION NEEDED"
+}

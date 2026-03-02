@@ -1,0 +1,46 @@
+{
+  "random": {
+    "AUC": 0.4989,
+    "NDCG@5": 0.2138,
+    "NDCG@10": 0.2711,
+    "Precision@5": 0.1222,
+    "HR@5": 0.4669,
+    "HR@10": 0.6722,
+    "Recall@10": 0.6725,
+    "MRR": 0.2752,
+    "Catalog_Coverage": 1.0
+  },
+  "popularity": {
+    "AUC": 0.5013,
+    "NDCG@5": 0.2329,
+    "NDCG@10": 0.2918,
+    "Precision@5": 0.1269,
+    "HR@5": 0.4751,
+    "HR@10": 0.6688,
+    "Recall@10": 0.673,
+    "MRR": 0.298,
+    "Catalog_Coverage": 0.98
+  },
+  "cooccurrence": {
+    "AUC": 0.5053,
+    "NDCG@5": 0.2362,
+    "NDCG@10": 0.2972,
+    "Precision@5": 0.1301,
+    "HR@5": 0.4861,
+    "HR@10": 0.6732,
+    "Recall@10": 0.6803,
+    "MRR": 0.3069,
+    "Catalog_Coverage": 0.98
+  },
+  "pmi": {
+    "AUC": 0.5072,
+    "NDCG@5": 0.2359,
+    "NDCG@10": 0.2963,
+    "Precision@5": 0.1374,
+    "HR@5": 0.5032,
+    "HR@10": 0.6872,
+    "Recall@10": 0.7033,
+    "MRR": 0.3079,
+    "Catalog_Coverage": 1.0
+  }
+}

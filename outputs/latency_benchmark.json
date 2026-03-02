@@ -1,0 +1,173 @@
+{
+  "latency_simulation": {
+    "component_stats": {
+      "api_gateway": {
+        "mean": 8.0,
+        "p50": 7.8,
+        "p95": 11.6,
+        "p99": 13.8
+      },
+      "feature_retrieval": {
+        "mean": 18.1,
+        "p50": 17.4,
+        "p95": 27.3,
+        "p99": 32.9
+      },
+      "candidate_generation": {
+        "mean": 9.9,
+        "p50": 9.3,
+        "p95": 17.4,
+        "p99": 22.1
+      },
+      "l1_ranking_lgbm": {
+        "mean": 22.0,
+        "p50": 21.2,
+        "p95": 32.8,
+        "p99": 39.7
+      },
+      "l2_ranking_dcn": {
+        "mean": 30.0,
+        "p50": 29.1,
+        "p95": 44.8,
+        "p99": 53.0
+      },
+      "mmr_postprocessing": {
+        "mean": 6.0,
+        "p50": 5.4,
+        "p95": 11.7,
+        "p99": 16.3
+      },
+      "serialization": {
+        "mean": 3.0,
+        "p50": 2.9,
+        "p95": 4.8,
+        "p99": 6.0
+      },
+      "network_overhead": {
+        "mean": 8.0,
+        "p50": 7.1,
+        "p95": 15.9,
+        "p99": 21.5
+      }
+    },
+    "sequential": {
+      "p50": 104.2,
+      "p75": 113.2,
+      "p90": 122.3,
+      "p95": 128.1,
+      "p99": 139.4,
+      "mean": 105.0,
+      "max": 164.2
+    },
+    "parallel_optimized": {
+      "p50": 94.5,
+      "p75": 103.2,
+      "p90": 111.7,
+      "p95": 117.3,
+      "p99": 128.3,
+      "mean": 95.4,
+      "max": 148.8
+    },
+    "parallel_savings_p95_ms": 10.8,
+    "p95_under_200ms": "True",
+    "n_simulations": 10000
+  },
+  "scalability": {
+    "peak_target_rps": 10000,
+    "triton_throughput_per_instance": 2000,
+    "instances_needed": 5,
+    "instances_with_headroom": 10,
+    "redis_sizing": {
+      "user_features_gb": 0.07,
+      "item_features_gb": 0.06,
+      "pmi_cache_gb": 0.5,
+      "candidate_cache_gb": 0.3,
+      "total_gb": 0.93,
+      "recommended_cluster": "3-node Redis Cluster, 8GB each"
+    },
+    "compute": {
+      "ml_serving": "10x c5.2xlarge (Triton Inference Server)",
+      "feature_store": "3x r5.2xlarge (Redis Cluster)",
+      "api_gateway": "2x c5.xlarge (NGINX/Envoy)",
+      "monitoring": "1x m5.xlarge (Prometheus + Grafana)"
+    }
+  },
+  "fallback_chain": [
+    {
+      "name": "full_pipeline",
+      "description": "L1 + L2 + MMR",
+      "estimated_latency_ms": 120
+    },
+    {
+      "name": "lightgbm_only",
+      "description": "L1 only (skip L2)",
+      "estimated_latency_ms": 65
+    },
+    {
+      "name": "pmi_lookup",
+      "description": "PMI from Redis (skip all ML)",
+      "estimated_latency_ms": 15
+    },
+    {
+      "name": "popularity_fallback",
+      "description": "Most popular items",
+      "estimated_latency_ms": 5
+    }
+  ],
+  "latency_budget": {
+    "api_gateway": {
+      "mean_ms": 8,
+      "p95_ms": 12,
+      "std_ms": 2
+    },
+    "feature_retrieval": {
+      "mean_ms": 18,
+      "p95_ms": 28,
+      "std_ms": 5
+    },
+    "candidate_generation": {
+      "mean_ms": 10,
+      "p95_ms": 18,
+      "std_ms": 4
+    },
+    "l1_ranking_lgbm": {
+      "mean_ms": 22,
+      "p95_ms": 35,
+      "std_ms": 6
+    },
+    "l2_ranking_dcn": {
+      "mean_ms": 30,
+      "p95_ms": 45,
+      "std_ms": 8
+    },
+    "mmr_postprocessing": {
+      "mean_ms": 6,
+      "p95_ms": 12,
+      "std_ms": 3
+    },
+    "serialization": {
+      "mean_ms": 3,
+      "p95_ms": 5,
+      "std_ms": 1
+    },
+    "network_overhead": {
+      "mean_ms": 8,
+      "p95_ms": 15,
+      "std_ms": 4
+    }
+  },
+  "continuous_firing": {
+    "avg_fires_old": 1.35,
+    "avg_fires_new": 2.25,
+    "rps_increase_pct": 66.7,
+    "additional_triton_instances": 5,
+    "latency_per_fire_p95_ms": 117.3,
+    "fatigue_decay": {
+      "1": 1.0,
+      "2": 0.75,
+      "3": 0.55,
+      "4": 0.4,
+      "5": 0.3
+    }
+  }
+}

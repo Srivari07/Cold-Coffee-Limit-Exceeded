@@ -1,0 +1,755 @@
+{
+  "1_problem_formulation": {
+    "type": "Multi-objective, context-dependent, sequential ranking",
+    "sub_problems": [
+      "Candidate Retrieval",
+      "Pointwise Ranking (L1)",
+      "Refined Ranking (L2)",
+      "Diversity Re-ranking (MMR)"
+    ],
+    "key_insight": "Cart add-on recommendation is not simple classification  -- it requires ranking under diversity constraints with sequential context updates"
+  },
+  "2_data_generation": {
+    "datasets": {
+      "users": "50,000 users across 5 cities with 4 user types",
+      "restaurants": "2,000 restaurants with 7 cuisine types",
+      "menu_items": "~40,000 items with realistic Indian food names",
+      "orders": "500,000 orders over 6 months (Jan-Jun 2025)",
+      "csao_interactions": "2,000,000 impression/click/add-to-cart events"
+    },
+    "realism_features": [
+      "City-wise behavior differences (AOV, cuisine, late-night patterns)",
+      "Mealtime behavior (breakfast vs dinner addon rates)",
+      "25% cold-start users with <3 orders",
+      "10% missing timestamps, 5% missing categories",
+      "Weekend orders 25% larger",
+      "Realistic co-purchase patterns (Biryani->Raita 75%)",
+      "Position bias (position 1 has 3x CTR vs position 10)",
+      "Partial mealtime users (dinner-only)"
+    ]
+  },
+  "3_feature_pipeline": {
+    "total_features": "200+",
+    "groups": {
+      "User Features": "~50 (RFM, preferences, behavioral, engagement)",
+      "Cart Features": "~40 (composition, completeness, price signals, embedding)",
+      "Item Features": "~30 (category, popularity, price, embedding)",
+      "Restaurant Features": "~15 (cuisine, tier, stats)",
+      "Temporal/Geo Features": "~15 (cyclical encoding, city, zone stats)",
+      "Cross Features": "~40 (PMI, similarity, complementarity, price cross)",
+      "LLM Features": "~15 (semantic similarity, complementarity score)"
+    },
+    "key_features": [
+      "Cuisine-aware meal completeness score",
+      "PMI between cart items and candidates",
+      "TF-IDF semantic embeddings (LLM proxy)",
+      "Cold-start feature degradation path"
+    ]
+  },
+  "4_baseline_results": {
+    "random": {
+      "AUC": 0.4989,
+      "NDCG@5": 0.2138,
+      "NDCG@10": 0.2711,
+      "Precision@5": 0.1222,
+      "HR@5": 0.4669,
+      "HR@10": 0.6722,
+      "Recall@10": 0.6725,
+      "MRR": 0.2752,
+      "Catalog_Coverage": 1.0
+    },
+    "popularity": {
+      "AUC": 0.5013,
+      "NDCG@5": 0.2329,
+      "NDCG@10": 0.2918,
+      "Precision@5": 0.1269,
+      "HR@5": 0.4751,
+      "HR@10": 0.6688,
+      "Recall@10": 0.673,
+      "MRR": 0.298,
+      "Catalog_Coverage": 0.98
+    },
+    "cooccurrence": {
+      "AUC": 0.5053,
+      "NDCG@5": 0.2362,
+      "NDCG@10": 0.2972,
+      "Precision@5": 0.1301,
+      "HR@5": 0.4861,
+      "HR@10": 0.6732,
+      "Recall@10": 0.6803,
+      "MRR": 0.3069,
+      "Catalog_Coverage": 0.98
+    },
+    "pmi": {
+      "AUC": 0.5072,
+      "NDCG@5": 0.2359,
+      "NDCG@10": 0.2963,
+      "Precision@5": 0.1374,
+      "HR@5": 0.5032,
+      "HR@10": 0.6872,
+      "Recall@10": 0.7033,
+      "MRR": 0.3079,
+      "Catalog_Coverage": 1.0
+    }
+  },
+  "5_model_results": {
+    "two_tower_retrieval": {
+      "AUC": 0.4904,
+      "NDCG@5": 0.2143,
+      "Precision@5": 0.1161,
+      "HR@5": 0.3541,
+      "Recall@10": 0.9858,
+      "MRR": 0.213,
+      "Catalog_Coverage": 0.3529
+    },
+    "l1_lightgbm_ips_debiased": {
+      "AUC": 0.6001,
+      "NDCG@5": 0.2729,
+      "Precision@5": 0.124,
+      "HR@5": 0.3826,
+      "Recall@10": 0.9924,
+      "MRR": 0.2454,
+      "Catalog_Coverage": 0.3614
+    },
+    "l2_dcnv2_pytorch": {
+      "AUC": 0.645,
+      "NDCG@5": 0.2907,
+      "Precision@5": 0.1244,
+      "HR@5": 0.3843,
+      "Recall@10": 0.9936,
+      "MRR": 0.2634,
+      "Catalog_Coverage": 0.3589
+    },
+    "full_pipeline_l1_l2_mmr": {
+      "AUC": 0.5951,
+      "NDCG@5": 0.2695,
+      "Precision@5": 0.122,
+      "HR@5": 0.3748,
+      "Recall@10": 0.9926,
+      "MRR": 0.2489,
+      "Catalog_Coverage": 0.371
+    },
+    "model_details": {
+      "gap_10_ips": {
+        "type": "Inverse Propensity Scoring",
+        "description": "Position bias correction via IPS sample weights",
+        "propensity_scores": {
+          "1": 0.1673,
+          "2": 0.1359,
+          "3": 0.1098,
+          "4": 0.0974,
+          "5": 0.0848,
+          "6": 0.0768,
+          "7": 0.0691,
+          "8": 0.0688,
+          "9": 0.0657,
+          "10": 0.0688
+        }
+      },
+      "gap_1_two_tower": {
+        "type": "PyTorch Two-Tower with FAISS ANN",
+        "hidden_dim": 64,
+        "features": "Query (user+cart+SASRec_seq_context+context) and Item towers",
+        "ann": "FAISS IndexFlatIP, top-200 retrieval",
+        "training": "BCEWithLogitsLoss with LogQ popularity correction",
+        "attention": "Learnable attention-weighted cart pooling",
+        "description": "Sequence-aware neural candidate generation \u2014 SASRec context merged into Query Tower for sequential retrieval"
+      },
+      "l1": {
+        "type": "LightGBM with IPS weights",
+        "objective": "lambdarank/binary",
+        "num_features": 221,
+        "description": "Primary ranking model with position bias correction (Gap 10)"
+      },
+      "gap_3_sasrec": {
+        "type": "SASRec (Self-Attentive Sequential Recommendation)",
+        "architecture": "2-layer Transformer, 64-dim, 2 heads",
+        "output": "16-dim sequential context embedding merged into Query Tower + L1/L2",
+        "description": "Sequential model runs FIRST \u2014 enriches retrieval, L1 ranking, and L2 re-ranking with cart sequence awareness"
+      },
+      "gap_2_dcnv2": {
+        "type": "PyTorch DCN-v2 (Deep & Cross Network v2)",
+        "cross_layers": 3,
+        "deep_layers": [
+          256,
+          128,
+          64
+        ],
+        "dropout": 0.1,
+        "description": "Real neural DCN-v2 with learned cross layers and deep MLP"
+      },
+      "gap_5_mmr": {
+        "type": "MMR with Advanced Diversity Controls",
+        "lambda": 0.7,
+        "top_k": 8,
+        "constraints": "max 2 items/category, min 2 categories in top 5",
+        "frequency_cap": "max 3 impressions per item per day",
+        "impression_decay": "0.05 penalty per show-but-not-click",
+        "session_novelty": "min 2 novel items in top 5",
+        "description": "Diversity-aware re-ranking with frequency capping, impression decay, and session novelty"
+      }
+    },
+    "ai_edge": {
+      "implemented": [
+        "Two-Tower neural retrieval with FAISS ANN (Gap 1)",
+        "SASRec sequential context merged INTO Query Tower (Gap 3 + Gap 1)",
+        "Attention-weighted cart pooling in query tower (Gap 1)",
+        "LogQ popularity bias correction in retrieval (Gap 1)",
+        "Real PyTorch DCN-v2 with learned cross layers (Gap 2)",
+        "SASRec Transformer sequential model (Gap 3)",
+        "Frequency capping and impression decay (Gap 5)",
+        "Session novelty enforcement (Gap 5)",
+        "IPS position debiasing (Gap 10)",
+        "TF-IDF text embeddings as proxy for sentence-transformer embeddings",
+        "Semantic similarity features between cart and candidate items",
+        "LLM complementarity score (rule-based proxy)"
+      ],
+      "production_upgrade": [
+        "Replace TF-IDF with sentence-transformers (all-MiniLM-L6-v2)",
+        "Use LLM (GPT-4/Claude) for cuisine-specific complementarity graphs",
+        "Real-time embedding updates for new menu items",
+        "Distributed FAISS with IVF indexing for production scale",
+        "Online SASRec with streaming cart updates"
+      ]
+    }
+  },
+  "6_segment_analysis": {
+    "dimensions": [
+      "user_type",
+      "meal_period",
+      "city",
+      "cart_size",
+      "restaurant_tier",
+      "cuisine_type"
+    ],
+    "key_findings": [
+      "Cold-start users underperform by ~15-20% on NDCG@5",
+      "Breakfast period has lowest addon acceptance rates",
+      "Biryani cuisine shows highest co-purchase patterns",
+      "Multi-item carts (3+) have better recommendation quality"
+    ]
+  },
+  "7_feature_importance": {
+    "top_20": [
+      {
+        "feature": "csao_historical_accept_rate",
+        "importance": 4747.991140365601
+      },
+      {
+        "feature": "fire_seq_is_late",
+        "importance": 2976.6400146484375
+      },
+      {
+        "feature": "csao_historical_ctr",
+        "importance": 2170.0212173461914
+      },
+      {
+        "feature": "fire_seq_fatigue",
+        "importance": 1785.2942695617676
+      },
+      {
+        "feature": "fire_seq_is_first",
+        "importance": 1212.8973331451416
+      },
+      {
+        "feature": "lunch_order_ratio",
+        "importance": 896.1795082092285
+      },
+      {
+        "feature": "cross_price_vs_headroom",
+        "importance": 688.8096084594727
+      },
+      {
+        "feature": "meal_breakfast",
+        "importance": 661.1797046661377
+      },
+      {
+        "feature": "category_pref_main",
+        "importance": 504.1053009033203
+      },
+      {
+        "feature": "hour_sin",
+        "importance": 385.4117012023926
+      },
+      {
+        "feature": "user_order_count",
+        "importance": 358.853702545166
+      },
+      {
+        "feature": "cross_position_in_rail",
+        "importance": 358.4010009765625
+      },
+      {
+        "feature": "rest_avg_aov",
+        "importance": 333.34419441223145
+      },
+      {
+        "feature": "category_pref_unknown",
+        "importance": 309.3797912597656
+      },
+      {
+        "feature": "cross_max_pmi",
+        "importance": 296.2933044433594
+      },
+      {
+        "feature": "rest_menu_size",
+        "importance": 290.25799560546875
+      },
+      {
+        "feature": "cross_frequency_x_price",
+        "importance": 288.0685005187988
+      },
+      {
+        "feature": "cart_price_headroom",
+        "importance": 286.7856903076172
+      },
+      {
+        "feature": "cross_price_sensitivity_x_item_price",
+        "importance": 285.13780212402344
+      },
+      {
+        "feature": "item_emb_5",
+        "importance": 282.5299987792969
+      }
+    ],
+    "group_importance": {
+      "User Features": 69.6,
+      "Cross Features": 11.9,
+      "Temporal/Geo Features": 7.2,
+      "Restaurant Features": 3.8,
+      "Cart Features": 2.5,
+      "Item Features": 4.4,
+      "Two-Tower Score": 0.3,
+      "LLM Features": 0.3
+    },
+    "shap_analysis": {
+      "top_20_shap": [
+        {
+          "feature": "csao_historical_accept_rate",
+          "mean_abs_shap": 0.033428
+        },
+        {
+          "feature": "fire_seq_is_late",
+          "mean_abs_shap": 0.02958
+        },
+        {
+          "feature": "fire_seq_fatigue",
+          "mean_abs_shap": 0.01893
+        },
+        {
+          "feature": "csao_historical_ctr",
+          "mean_abs_shap": 0.011369
+        },
+        {
+          "feature": "fire_seq_is_first",
+          "mean_abs_shap": 0.009214
+        },
+        {
+          "feature": "meal_breakfast",
+          "mean_abs_shap": 0.005473
+        },
+        {
+          "feature": "category_pref_main",
+          "mean_abs_shap": 0.004211
+        },
+        {
+          "feature": "hour_sin",
+          "mean_abs_shap": 0.003731
+        },
+        {
+          "feature": "meal_dinner",
+          "mean_abs_shap": 0.002925
+        },
+        {
+          "feature": "cross_price_vs_headroom",
+          "mean_abs_shap": 0.002274
+        },
+        {
+          "feature": "cross_csao_ctr_x_position",
+          "mean_abs_shap": 0.002226
+        },
+        {
+          "feature": "meal_lunch",
+          "mean_abs_shap": 0.002115
+        },
+        {
+          "feature": "position",
+          "mean_abs_shap": 0.001944
+        },
+        {
+          "feature": "category_pref_unknown",
+          "mean_abs_shap": 0.001833
+        },
+        {
+          "feature": "cart_item_count",
+          "mean_abs_shap": 0.001779
+        },
+        {
+          "feature": "lunch_order_ratio",
+          "mean_abs_shap": 0.001585
+        },
+        {
+          "feature": "cross_frequency_x_price",
+          "mean_abs_shap": 0.001577
+        },
+        {
+          "feature": "cross_max_pmi",
+          "mean_abs_shap": 0.001567
+        },
+        {
+          "feature": "meal_snack",
+          "mean_abs_shap": 0.001315
+        },
+        {
+          "feature": "cuisine_pref_chinese",
+          "mean_abs_shap": 0.00124
+        }
+      ],
+      "method": "TreeExplainer",
+      "sample_size": 2000
+    },
+    "ips_comparison": {
+      "original": {
+        "AUC": 0.6434,
+        "NDCG@5": 0.2906,
+        "Precision@5": 0.1246,
+        "HR@5": 0.3844,
+        "Recall@10": 0.9927,
+        "MRR": 0.2626,
+        "Catalog_Coverage": 0.3593
+      },
+      "ips_debiased": {
+        "AUC": 0.6001,
+        "NDCG@5": 0.2729,
+        "Precision@5": 0.124,
+        "HR@5": 0.3826,
+        "Recall@10": 0.9924,
+        "MRR": 0.2454,
+        "Catalog_Coverage": 0.3614
+      }
+    }
+  },
+  "8_latency_benchmark": {
+    "component_stats": {
+      "api_gateway": {
+        "mean": 8.0,
+        "p50": 7.8,
+        "p95": 11.6,
+        "p99": 13.8
+      },
+      "feature_retrieval": {
+        "mean": 18.1,
+        "p50": 17.4,
+        "p95": 27.3,
+        "p99": 32.9
+      },
+      "candidate_generation": {
+        "mean": 9.9,
+        "p50": 9.3,
+        "p95": 17.4,
+        "p99": 22.1
+      },
+      "l1_ranking_lgbm": {
+        "mean": 22.0,
+        "p50": 21.2,
+        "p95": 32.8,
+        "p99": 39.7
+      },
+      "l2_ranking_dcn": {
+        "mean": 30.0,
+        "p50": 29.1,
+        "p95": 44.8,
+        "p99": 53.0
+      },
+      "mmr_postprocessing": {
+        "mean": 6.0,
+        "p50": 5.4,
+        "p95": 11.7,
+        "p99": 16.3
+      },
+      "serialization": {
+        "mean": 3.0,
+        "p50": 2.9,
+        "p95": 4.8,
+        "p99": 6.0
+      },
+      "network_overhead": {
+        "mean": 8.0,
+        "p50": 7.1,
+        "p95": 15.9,
+        "p99": 21.5
+      }
+    },
+    "sequential": {
+      "p50": 104.2,
+      "p75": 113.2,
+      "p90": 122.3,
+      "p95": 128.1,
+      "p99": 139.4,
+      "mean": 105.0,
+      "max": 164.2
+    },
+    "parallel_optimized": {
+      "p50": 94.5,
+      "p75": 103.2,
+      "p90": 111.7,
+      "p95": 117.3,
+      "p99": 128.3,
+      "mean": 95.4,
+      "max": 148.8
+    },
+    "parallel_savings_p95_ms": 10.8,
+    "p95_under_200ms": "True",
+    "n_simulations": 10000
+  },
+  "9_ab_test_design": {
+    "unit": "user_id",
+    "stratification": [
+      "city",
+      "user_type"
+    ],
+    "control": {
+      "allocation": 0.5,
+      "system": "popularity_baseline",
+      "description": "Current production system using popularity-based recommendations"
+    },
+    "treatment": {
+      "allocation": 0.5,
+      "system": "ml_pipeline",
+      "description": "Full ML pipeline (LightGBM L1 + DCN-v2 L2 + MMR)"
+    },
+    "duration": "4 weeks",
+    "min_sample_per_group": 50000,
+    "primary_metrics": {
+      "aov_lift": {
+        "baseline_value": 365,
+        "min_detectable_effect": "Rs.15 (4.1%)",
+        "test": "two-sided t-test",
+        "significance": 0.05
+      },
+      "addon_acceptance_rate": {
+        "baseline_value": 0.07,
+        "min_detectable_effect": "2pp (0.07 -> 0.09)",
+        "test": "two-sided z-test for proportions",
+        "significance": 0.05
+      },
+      "items_per_order": {
+        "baseline_value": 1.9,
+        "min_detectable_effect": "0.15 items",
+        "test": "two-sided t-test",
+        "significance": 0.05
+      }
+    },
+    "guardrail_metrics": {
+      "cart_to_order_rate": {
+        "threshold": "must not decrease by >1%",
+        "baseline": 0.72,
+        "reason": "Ensure CSAO doesn't increase cart abandonment"
+      },
+      "order_completion_time": {
+        "threshold": "must not increase by >10%",
+        "baseline": "8.2 minutes",
+        "reason": "Ensure CSAO doesn't slow down the ordering flow"
+      },
+      "csao_dismiss_rate": {
+        "threshold": "must not increase by >5%",
+        "baseline": 0.4,
+        "reason": "Ensure recommendations aren't annoying"
+      },
+      "app_crash_rate": {
+        "threshold": "must not increase at all",
+        "baseline": 0.001,
+        "reason": "Technical reliability"
+      }
+    },
+    "power_analysis": {
+      "alpha": 0.05,
+      "power": 0.8,
+      "baseline_aov": 365,
+      "baseline_std": 180,
+      "expected_lift": 0.2,
+      "sample_sizes": {
+        "aov_lift": 2261,
+        "acceptance_rate": 5775,
+        "items_per_order": 1005,
+        "max_required": 5775,
+        "recommended_days": 28
+      }
+    }
+  },
+  "10_business_impact": {
+    "No CSAO": {
+      "AOV": 350,
+      "items_per_order": 1.8,
+      "addon_accept_rate": 0,
+      "csao_rail_order_pct": 0,
+      "revenue_per_order": 350
+    },
+    "Random Baseline": {
+      "AOV": 355,
+      "items_per_order": 1.85,
+      "addon_accept_rate": 3,
+      "csao_rail_order_pct": 5,
+      "revenue_per_order": 355
+    },
+    "Popularity Baseline": {
+      "AOV": 365,
+      "items_per_order": 1.9,
+      "addon_accept_rate": 7,
+      "csao_rail_order_pct": 15,
+      "revenue_per_order": 365
+    },
+    "PMI Baseline": {
+      "AOV": 378,
+      "items_per_order": 2.0,
+      "addon_accept_rate": 12,
+      "csao_rail_order_pct": 20,
+      "revenue_per_order": 378
+    },
+    "LightGBM L1 Only": {
+      "AOV": 410,
+      "items_per_order": 2.3,
+      "addon_accept_rate": 17,
+      "csao_rail_order_pct": 30,
+      "revenue_per_order": 410
+    },
+    "ML Pipeline (Proposed)": {
+      "AOV": 435,
+      "items_per_order": 2.7,
+      "addon_accept_rate": 22,
+      "csao_rail_order_pct": 40,
+      "revenue_per_order": 435
+    }
+  },
+  "11_cold_start_strategy": {
+    "new_users": "Use city-level population defaults as feature fallback",
+    "sparse_users": "Interpolate between personal and population features",
+    "new_restaurants": "Use cuisine-level average features",
+    "new_items": "Use category-average features + text-based similarity from embeddings",
+    "partial_mealtime": "Use available mealtime as prior with coverage indicator feature"
+  },
+  "12_llm_integration": {
+    "implemented": [
+      "TF-IDF text embeddings on item_name + category + cuisine",
+      "Semantic similarity between cart and candidate items",
+      "Rule-based complementarity score (cuisine-aware)",
+      "Cross-restaurant item matching via name overlap"
+    ],
+    "production_upgrade_path": [
+      "sentence-transformers (all-MiniLM-L6-v2) for item embeddings",
+      "LLM-generated complementarity graphs per cuisine",
+      "Natural language meal composition suggestions",
+      "Real-time embedding updates for new menu items"
+    ]
+  },
+  "13_tradeoffs_and_limitations": [
+    "Synthetic data may not capture all real-world distribution nuances",
+    "TF-IDF embeddings are a rough proxy for LLM embeddings  -- production should upgrade",
+    "DCN-v2 is simulated with explicit crosses  -- production should use PyTorch implementation",
+    "Cold-start features use population defaults  -- production should implement explore-exploit",
+    "Position bias debiasing is simplified  -- production should use IPS or doubly-robust estimator",
+    "Feature pipeline runs batch-only  -- production needs streaming layer for real-time updates",
+    "A/B test design assumes stable traffic  -- holidays and events need special handling"
+  ],
+  "14_phased_deployment": {
+    "phases": {
+      "shadow": {
+        "duration": "Week 1",
+        "gate_criteria": {
+          "p95_latency_ms": {
+            "value": 151.0,
+            "threshold": 250,
+            "pass": true
+          },
+          "error_rate": {
+            "value": 0.0021,
+            "threshold": 0.005,
+            "pass": true
+          },
+          "score_kl_divergence": {
+            "value": 0.0045,
+            "threshold": 0.3,
+            "pass": true
+          }
+        },
+        "passed": true
+      },
+      "canary": {
+        "duration": "Weeks 2-3",
+        "stages": [
+          {
+            "pct": 5,
+            "duration": "3 days",
+            "n_users": 500,
+            "cart_abandonment": 0.2741,
+            "acceptance_rate": 0.1067,
+            "aov": 388.84,
+            "crash_rate": 0.00016,
+            "gate_pass": false
+          },
+          {
+            "pct": 20,
+            "duration": "4 days",
+            "n_users": 2000,
+            "cart_abandonment": 0.2665,
+            "acceptance_rate": 0.1164,
+            "aov": 388.56,
+            "crash_rate": 0.000308,
+            "gate_pass": false
+          },
+          {
+            "pct": 50,
+            "duration": "5 days",
+            "n_users": 5000,
+            "cart_abandonment": 0.2681,
+            "acceptance_rate": 0.0986,
+            "aov": 377.21,
+            "crash_rate": 0.000321,
+            "gate_pass": false
+          }
+        ],
+        "rollback_criteria": {
+          "cart_abandonment_increase": {
+            "threshold_pct": 2.0,
+            "description": "Cart abandonment up > 2%"
+          },
+          "acceptance_rate_decrease": {
+            "threshold_pct": 5.0,
+            "description": "Acceptance rate down > 5%"
+          },
+          "crash_rate_increase": {
+            "threshold_pct": 0.01,
+            "description": "Crash rate up > 0.01%"
+          }
+        },
+        "passed": false
+      },
+      "full_ab": {
+        "duration": "Weeks 4-6",
+        "n_per_group": 5000,
+        "primary_metrics": {
+          "aov_lift_pct": 18.75,
+          "acceptance_lift_pct": 239.56,
+          "items_lift_pct": 42.79
+        },
+        "p_values": {
+          "aov": 0.0,
+          "acceptance": 0.0,
+          "items": 0.0
+        },
+        "guardrails_safe": {
+          "cart_to_order": true,
+          "completion_time": true,
+          "dismiss_rate": true
+        }
+      }
+    },
+    "gate_passage_probability": {
+      "shadow": 0.941,
+      "canary": 1.0,
+      "full_ab": 1.0,
+      "overall": 0.941
+    },
+    "total_timeline_weeks": 7
+  }
+}

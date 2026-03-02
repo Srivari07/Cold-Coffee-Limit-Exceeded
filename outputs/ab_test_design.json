@@ -1,0 +1,75 @@
+{
+  "unit": "user_id",
+  "stratification": [
+    "city",
+    "user_type"
+  ],
+  "control": {
+    "allocation": 0.5,
+    "system": "popularity_baseline",
+    "description": "Current production system using popularity-based recommendations"
+  },
+  "treatment": {
+    "allocation": 0.5,
+    "system": "ml_pipeline",
+    "description": "Full ML pipeline (LightGBM L1 + DCN-v2 L2 + MMR)"
+  },
+  "duration": "4 weeks",
+  "min_sample_per_group": 50000,
+  "primary_metrics": {
+    "aov_lift": {
+      "baseline_value": 365,
+      "min_detectable_effect": "Rs.15 (4.1%)",
+      "test": "two-sided t-test",
+      "significance": 0.05
+    },
+    "addon_acceptance_rate": {
+      "baseline_value": 0.07,
+      "min_detectable_effect": "2pp (0.07 -> 0.09)",
+      "test": "two-sided z-test for proportions",
+      "significance": 0.05
+    },
+    "items_per_order": {
+      "baseline_value": 1.9,
+      "min_detectable_effect": "0.15 items",
+      "test": "two-sided t-test",
+      "significance": 0.05
+    }
+  },
+  "guardrail_metrics": {
+    "cart_to_order_rate": {
+      "threshold": "must not decrease by >1%",
+      "baseline": 0.72,
+      "reason": "Ensure CSAO doesn't increase cart abandonment"
+    },
+    "order_completion_time": {
+      "threshold": "must not increase by >10%",
+      "baseline": "8.2 minutes",
+      "reason": "Ensure CSAO doesn't slow down the ordering flow"
+    },
+    "csao_dismiss_rate": {
+      "threshold": "must not increase by >5%",
+      "baseline": 0.4,
+      "reason": "Ensure recommendations aren't annoying"
+    },
+    "app_crash_rate": {
+      "threshold": "must not increase at all",
+      "baseline": 0.001,
+      "reason": "Technical reliability"
+    }
+  },
+  "power_analysis": {
+    "alpha": 0.05,
+    "power": 0.8,
+    "baseline_aov": 365,
+    "baseline_std": 180,
+    "expected_lift": 0.2,
+    "sample_sizes": {
+      "aov_lift": 2261,
+      "acceptance_rate": 5775,
+      "items_per_order": 1005,
+      "max_required": 5775,
+      "recommended_days": 28
+    }
+  }
+}

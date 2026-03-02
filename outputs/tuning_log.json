@@ -1,0 +1,220 @@
+{
+  "best_params": {
+    "num_leaves": 127,
+    "learning_rate": 0.03,
+    "feature_fraction": 0.9
+  },
+  "best_val_ndcg5": 0.249052,
+  "default_val_ndcg5": 0.248042,
+  "improvement_pct": 0.41,
+  "search_results": [
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.03,
+      "feature_fraction": 0.9,
+      "val_ndcg5": 0.249052,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.03,
+      "feature_fraction": 0.8,
+      "val_ndcg5": 0.248881,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.7,
+      "val_ndcg5": 0.248861,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.03,
+      "feature_fraction": 0.7,
+      "val_ndcg5": 0.248674,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.03,
+      "feature_fraction": 0.7,
+      "val_ndcg5": 0.248242,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.03,
+      "feature_fraction": 0.8,
+      "val_ndcg5": 0.248227,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.7,
+      "val_ndcg5": 0.248219,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.03,
+      "feature_fraction": 0.9,
+      "val_ndcg5": 0.248219,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.8,
+      "val_ndcg5": 0.24817,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.9,
+      "val_ndcg5": 0.248088,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.8,
+      "val_ndcg5": 0.248042,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.1,
+      "feature_fraction": 0.7,
+      "val_ndcg5": 0.248021,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.8,
+      "val_ndcg5": 0.247917,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.9,
+      "val_ndcg5": 0.24787,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.1,
+      "feature_fraction": 0.7,
+      "val_ndcg5": 0.247783,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.1,
+      "feature_fraction": 0.9,
+      "val_ndcg5": 0.247711,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.1,
+      "feature_fraction": 0.7,
+      "val_ndcg5": 0.247693,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.9,
+      "val_ndcg5": 0.247667,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.03,
+      "feature_fraction": 0.8,
+      "val_ndcg5": 0.247599,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.03,
+      "feature_fraction": 0.9,
+      "val_ndcg5": 0.247582,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.1,
+      "feature_fraction": 0.9,
+      "val_ndcg5": 0.247528,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.1,
+      "feature_fraction": 0.8,
+      "val_ndcg5": 0.247471,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.1,
+      "feature_fraction": 0.8,
+      "val_ndcg5": 0.247387,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.7,
+      "val_ndcg5": 0.247373,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.03,
+      "feature_fraction": 0.7,
+      "val_ndcg5": 0.247365,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.1,
+      "feature_fraction": 0.8,
+      "val_ndcg5": 0.247203,
+      "n_rounds": 100
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.1,
+      "feature_fraction": 0.9,
+      "val_ndcg5": 0.246746,
+      "n_rounds": 100
+    }
+  ],
+  "grid": {
+    "num_leaves": [
+      31,
+      63,
+      127
+    ],
+    "learning_rate": [
+      0.03,
+      0.05,
+      0.1
+    ],
+    "feature_fraction": [
+      0.7,
+      0.8,
+      0.9
+    ]
+  },
+  "n_combos": 27,
+  "rounds_per_combo": 100
+}

@@ -1,0 +1,103 @@
+{
+  "n_cold_start_users": 12536,
+  "pct_cold_start": 25.1,
+  "popularity_baseline": {
+    "accept_rate": 0.0923,
+    "diversity": 20
+  },
+  "thompson_sampling": {
+    "accept_rate": 0.1334,
+    "diversity": 6879,
+    "convergence_sessions": 300,
+    "convergence_log": [
+      {
+        "session": 100,
+        "avg_accept_rate": 0.1462,
+        "unique_items_explored": 775
+      },
+      {
+        "session": 200,
+        "avg_accept_rate": 0.1419,
+        "unique_items_explored": 1531
+      },
+      {
+        "session": 300,
+        "avg_accept_rate": 0.1363,
+        "unique_items_explored": 2276
+      },
+      {
+        "session": 400,
+        "avg_accept_rate": 0.1341,
+        "unique_items_explored": 3025
+      },
+      {
+        "session": 500,
+        "avg_accept_rate": 0.13,
+        "unique_items_explored": 3736
+      },
+      {
+        "session": 600,
+        "avg_accept_rate": 0.1331,
+        "unique_items_explored": 4397
+      },
+      {
+        "session": 700,
+        "avg_accept_rate": 0.1325,
+        "unique_items_explored": 5042
+      },
+      {
+        "session": 800,
+        "avg_accept_rate": 0.1339,
+        "unique_items_explored": 5667
+      },
+      {
+        "session": 900,
+        "avg_accept_rate": 0.1333,
+        "unique_items_explored": 6280
+      },
+      {
+        "session": 1000,
+        "avg_accept_rate": 0.1334,
+        "unique_items_explored": 6879
+      }
+    ]
+  },
+  "cuisine_transfer": {
+    "North Indian": {
+      "avg_accept_rate": 0.1016,
+      "n_items": 7092,
+      "n_restaurants": 324
+    },
+    "South Indian": {
+      "avg_accept_rate": 0.1037,
+      "n_items": 5431,
+      "n_restaurants": 293
+    },
+    "Chinese": {
+      "avg_accept_rate": 0.1012,
+      "n_items": 6079,
+      "n_restaurants": 331
+    },
+    "Biryani": {
+      "avg_accept_rate": 0.1079,
+      "n_items": 5787,
+      "n_restaurants": 296
+    },
+    "Street Food": {
+      "avg_accept_rate": 0.0987,
+      "n_items": 5348,
+      "n_restaurants": 298
+    },
+    "Continental": {
+      "avg_accept_rate": 0.1011,
+      "n_items": 4608,
+      "n_restaurants": 248
+    },
+    "Maharashtrian": {
+      "avg_accept_rate": 0.0981,
+      "n_items": 3876,
+      "n_restaurants": 210
+    }
+  },
+  "new_item_strategy": "embedding_averaging_with_score_boost"
+}

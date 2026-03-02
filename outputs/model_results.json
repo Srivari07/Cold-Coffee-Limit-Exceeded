@@ -1,0 +1,121 @@
+{
+  "two_tower_retrieval": {
+    "AUC": 0.4904,
+    "NDCG@5": 0.2143,
+    "Precision@5": 0.1161,
+    "HR@5": 0.3541,
+    "Recall@10": 0.9858,
+    "MRR": 0.213,
+    "Catalog_Coverage": 0.3529
+  },
+  "l1_lightgbm_ips_debiased": {
+    "AUC": 0.6097,
+    "NDCG@5": 0.2757,
+    "Precision@5": 0.124,
+    "HR@5": 0.3826,
+    "Recall@10": 0.991,
+    "MRR": 0.2492,
+    "Catalog_Coverage": 0.3606
+  },
+  "l2_dcnv2_pytorch": {
+    "AUC": 0.6394,
+    "NDCG@5": 0.2886,
+    "Precision@5": 0.1241,
+    "HR@5": 0.3835,
+    "Recall@10": 0.993,
+    "MRR": 0.2619,
+    "Catalog_Coverage": 0.3587
+  },
+  "full_pipeline_l1_l2_mmr": {
+    "AUC": 0.5954,
+    "NDCG@5": 0.2687,
+    "Precision@5": 0.1218,
+    "HR@5": 0.3743,
+    "Recall@10": 0.9922,
+    "MRR": 0.2486,
+    "Catalog_Coverage": 0.3712
+  },
+  "model_details": {
+    "gap_10_ips": {
+      "type": "Inverse Propensity Scoring",
+      "description": "Position bias correction via IPS sample weights",
+      "propensity_scores": {
+        "1": 0.1673,
+        "2": 0.1359,
+        "3": 0.1098,
+        "4": 0.0974,
+        "5": 0.0848,
+        "6": 0.0768,
+        "7": 0.0691,
+        "8": 0.0688,
+        "9": 0.0657,
+        "10": 0.0688
+      }
+    },
+    "gap_1_two_tower": {
+      "type": "PyTorch Two-Tower with FAISS ANN",
+      "hidden_dim": 64,
+      "features": "Query (user+cart+SASRec_seq_context+context) and Item towers",
+      "ann": "FAISS IndexFlatIP, top-200 retrieval",
+      "training": "BCEWithLogitsLoss with LogQ popularity correction",
+      "attention": "Learnable attention-weighted cart pooling",
+      "description": "Sequence-aware neural candidate generation \u2014 SASRec context merged into Query Tower for sequential retrieval"
+    },
+    "l1": {
+      "type": "LightGBM with IPS weights",
+      "objective": "lambdarank/binary",
+      "num_features": 221,
+      "description": "Primary ranking model with position bias correction (Gap 10)"
+    },
+    "gap_3_sasrec": {
+      "type": "SASRec (Self-Attentive Sequential Recommendation)",
+      "architecture": "2-layer Transformer, 64-dim, 2 heads",
+      "output": "16-dim sequential context embedding merged into Query Tower + L1/L2",
+      "description": "Sequential model runs FIRST \u2014 enriches retrieval, L1 ranking, and L2 re-ranking with cart sequence awareness"
+    },
+    "gap_2_dcnv2": {
+      "type": "PyTorch DCN-v2 (Deep & Cross Network v2)",
+      "cross_layers": 3,
+      "deep_layers": [
+        256,
+        128,
+        64
+      ],
+      "dropout": 0.1,
+      "description": "Real neural DCN-v2 with learned cross layers and deep MLP"
+    },
+    "gap_5_mmr": {
+      "type": "MMR with Advanced Diversity Controls",
+      "lambda": 0.7,
+      "top_k": 8,
+      "constraints": "max 2 items/category, min 2 categories in top 5",
+      "frequency_cap": "max 3 impressions per item per day",
+      "impression_decay": "0.05 penalty per show-but-not-click",
+      "session_novelty": "min 2 novel items in top 5",
+      "description": "Diversity-aware re-ranking with frequency capping, impression decay, and session novelty"
+    }
+  },
+  "ai_edge": {
+    "implemented": [
+      "Two-Tower neural retrieval with FAISS ANN (Gap 1)",
+      "SASRec sequential context merged INTO Query Tower (Gap 3 + Gap 1)",
+      "Attention-weighted cart pooling in query tower (Gap 1)",
+      "LogQ popularity bias correction in retrieval (Gap 1)",
+      "Real PyTorch DCN-v2 with learned cross layers (Gap 2)",
+      "SASRec Transformer sequential model (Gap 3)",
+      "Frequency capping and impression decay (Gap 5)",
+      "Session novelty enforcement (Gap 5)",
+      "IPS position debiasing (Gap 10)",
+      "TF-IDF text embeddings as proxy for sentence-transformer embeddings",
+      "Semantic similarity features between cart and candidate items",
+      "LLM complementarity score (rule-based proxy)"
+    ],
+    "production_upgrade": [
+      "Replace TF-IDF with sentence-transformers (all-MiniLM-L6-v2)",
+      "Use LLM (GPT-4/Claude) for cuisine-specific complementarity graphs",
+      "Real-time embedding updates for new menu items",
+      "Distributed FAISS with IVF indexing for production scale",
+      "Online SASRec with streaming cart updates"
+    ]
+  }
+}
