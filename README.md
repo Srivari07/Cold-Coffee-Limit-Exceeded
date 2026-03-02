@@ -2,6 +2,11 @@
 
 Cart Super Add-On (CSAO) rail recommendation system for a food delivery platform. When a customer adds items to their cart, a horizontal rail shows complementary add-on suggestions that update in real-time as the cart changes.
 
+## Links
+
+- **GitHub**: https://github.com/Srivari07/Cold-Coffee-Limit-Exceeded
+- **Input Data, Features & Video Demo**: https://drive.google.com/drive/folders/1-_djzhR8PAr0kVhhUmFKpF6nwSaP6pVw?usp=sharing
+
 ## Setup
 
 ```bash
